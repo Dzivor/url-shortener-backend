@@ -7,7 +7,7 @@ const app = express();
 // CORS configuration
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://url-shortener-frontend-dzv-123456.s3-website-us-east-1.amazonaws.com",
     credentials: true,
   })
 );
