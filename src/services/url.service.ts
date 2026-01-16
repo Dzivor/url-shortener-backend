@@ -85,7 +85,7 @@ export class UrlService {
       SELECT 
         u.short_code,
         u.original_url,
-        COUNT(c.id) AS clicks
+        COUNT(c.id)::INTEGER AS clicks
       FROM urls u
       LEFT JOIN clicks c ON c.url_id = u.id
       WHERE u.user_id = $1
