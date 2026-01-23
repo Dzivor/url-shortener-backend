@@ -1,5 +1,4 @@
-import "./services/instrument.js"; // initializes Sentry before other middleware
-import * as Sentry from "@sentry/node";
+
 import express from "express";
 import authRoutes from "./routes/auth.routes";
 import cors from "cors";
@@ -51,7 +50,6 @@ app.use("/api", urlRoutes);
 
 app.use("/", redirectRoutes);
 
-// Sentry error handler should be before any custom error handlers that send responses
-Sentry.setupExpressErrorHandler(app);
+
 
 export default app;
