@@ -13,6 +13,7 @@ app.use(
     origin: [
       "http://url-shortener-frontend-dzv-123456.s3-website-us-east-1.amazonaws.com",
       "http://localhost:3000",
+      "http://44.223.27.214:3000",
     ],
     credentials: true,
   })
