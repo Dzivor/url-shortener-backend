@@ -1,14 +1,19 @@
+import "./services/instrument.js"; // initializes Sentry before other middleware
+import * as Sentry from "@sentry/node";
 import express from "express";
 import authRoutes from "./routes/auth.routes";
 import cors from "cors";
 import redirectRoutes from "./routes/redirect.routes";
 
+
 const app = express();
+
 // CORS configuration
 app.use(
   cors({
-    origin:[ "http://url-shortener-frontend-dzv-123456.s3-website-us-east-1.amazonaws.com",
-           "http://localhost:3000"
+    origin: [
+      "http://url-shortener-frontend-dzv-123456.s3-website-us-east-1.amazonaws.com",
+      "http://localhost:3000",
     ],
     credentials: true,
   })
@@ -45,5 +50,8 @@ import urlRoutes from "./routes/url.routes";
 app.use("/api", urlRoutes);
 
 app.use("/", redirectRoutes);
+
+// Sentry error handler should be before any custom error handlers that send responses
+Sentry.setupExpressErrorHandler(app);
 
 export default app;
