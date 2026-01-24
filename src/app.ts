@@ -2,6 +2,7 @@
 import express from "express";
 import authRoutes from "./routes/auth.routes";
 import cors from "cors";
+import helmet from "helmet";
 import redirectRoutes from "./routes/redirect.routes";
 
 
@@ -18,6 +19,9 @@ app.use(
     credentials: true,
   })
 );
+
+// Security headers with Helmet
+app.use(helmet());
 
 // Global middleware
 app.use(express.json());
