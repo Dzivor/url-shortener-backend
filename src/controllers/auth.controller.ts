@@ -1,17 +1,18 @@
 import { Request, Response } from "express";
 import { AuthService } from "../services/auth.service";
-import { RegisterInput, LoginInput } from "../types/auth.types";
+import { LoginSchema, RegisterSchema } from "../schemas";
 
 export class AuthController {
   /**
    * Handles user registration
-   * @param req - Express request containing RegisterInput data
+   * @param req - Express request containing validated RegisterSchema data
    * @param res - Express response object
    * @returns JSON response with user data or error message
    */
   static async register(req: Request, res: Response): Promise<Response> {
     try {
-      const data: RegisterInput = req.body;
+      // Data is already validated by Zod middleware
+      const data: RegisterSchema = req.body;
 
       // Call AuthService to register the user
       const user = await AuthService.register(data);
@@ -35,13 +36,14 @@ export class AuthController {
 
   /**
    * Handles user login
-   * @param req - Express request containing LoginInput data
+   * @param req - Express request containing validated LoginSchema data
    * @param res - Express response object
    * @returns JSON response with auth token or error message
    */
   static async login(req: Request, res: Response): Promise<Response> {
     try {
-      const data: LoginInput = req.body;
+      // Data is already validated by Zod middleware
+      const data: LoginSchema = req.body;
 
       // Call AuthService to authenticate user and generate token
       const token = await AuthService.login(data);
@@ -59,3 +61,4 @@ export class AuthController {
     }
   }
 }
+

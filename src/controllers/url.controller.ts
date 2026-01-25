@@ -4,6 +4,8 @@ import { Request, Response } from "express";
 import { UrlService } from "../services/url.service";
 // Import custom authenticated request type that includes user data
 import { AuthenticatedRequest } from "../middleware/auth.middleware";
+// Import the URL creation schema type
+import { CreateUrlSchema } from "../schemas";
 
 // Controller class for handling URL-related HTTP requests
 export class UrlController {
@@ -15,12 +17,8 @@ export class UrlController {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      // Extract the original URL from request body
-      const { originalUrl } = req.body;
-      // Validate that originalUrl is provided
-      if (!originalUrl) {
-        return res.status(400).json({ message: "originalUrl is required" });
-      }
+      // Data is already validated by Zod middleware
+      const { originalUrl }: CreateUrlSchema = req.body;
 
       // Get the authenticated user's ID
       const userId = req.user.userId;
@@ -85,3 +83,4 @@ export class UrlController {
     }
   }
 }
+
