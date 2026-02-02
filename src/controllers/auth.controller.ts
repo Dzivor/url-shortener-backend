@@ -3,12 +3,12 @@ import { AuthService } from "../services/auth.service";
 import { LoginSchema, RegisterSchema } from "../schemas";
 
 export class AuthController {
+  //Handles user registration
   /**
-   * Handles user registration
-   * @param req - Express request containing validated RegisterSchema data
-   * @param res - Express response object
-   * @returns JSON response with user data or error message
-   */
+    @param req 
+    @param res 
+    @returns 
+   **/
   static async register(req: Request, res: Response): Promise<Response> {
     try {
       // Data is already validated by Zod middleware
@@ -27,7 +27,6 @@ export class AuthController {
         },
       });
     } catch (error: any) {
-      // Return error response if registration fails
       return res.status(400).json({
         message: error.message || "Registration failed",
       });
@@ -42,23 +41,19 @@ export class AuthController {
    */
   static async login(req: Request, res: Response): Promise<Response> {
     try {
-      // Data is already validated by Zod middleware
       const data: LoginSchema = req.body;
 
       // Call AuthService to authenticate user and generate token
       const token = await AuthService.login(data);
 
-      // Return success response with JWT token
       return res.status(200).json({
         message: "Login successful",
         token,
       });
     } catch (error: any) {
-      // Return error response if login fails
       return res.status(401).json({
         message: error.message || "Invalid credentials",
       });
     }
   }
 }
-

@@ -4,24 +4,24 @@ import crypto from "crypto";
 // Service class for managing URL shortening operations and analytics
 export class UrlService {
   // Generate a random 8-character hexadecimal short code for URLs
-  private static generateShortCode(): string {
-    return crypto.randomBytes(4).toString("hex"); // 8 chars
+  private static md5To4Chars(url:string):string {
+    return crypto.createHash("md5").update(url).digest("hex").slice(0, 4);
   }
 
   // Create a new shortened URL for a user, ensuring unique short codes
   static async createUrl(userId: string, originalUrl: string) {
-    let shortCode: string = "";
-    let exists = true;
+    let shortCode: string = this.md5To4Chars(originalUrl);
+    
+    const existingCode = await pool.query(
+      `SELECT  *  FROM urls WHERE short_code =$1`,
+      [shortCode]
+    )
 
-    // Handle collisions by regenerating short code if one already exists
-    while (exists) {
-      shortCode = this.generateShortCode();
-      const check = await pool.query(
-        "SELECT 1 FROM urls WHERE short_code = $1",
-        [shortCode]
-      );
-      exists = (check.rowCount ?? 0) > 0; // ✅ Handle null case
+    if(existingCode.rowCount && existingCode.rowCount > 0){
+         return existingCode.rows[0];
     }
+   
+
 
     // Insert the new URL record into the database
     const result = await pool.query(

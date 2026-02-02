@@ -13,7 +13,7 @@ export const loginSchema = z.object({
     .toLowerCase(),
   password: z
     .string()
-    .min(1, { message: "Password is required" }),
+    .min(8, { message: "Password is required" }),
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>;
