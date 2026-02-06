@@ -26,8 +26,7 @@ pool.on("error", (err) => {
     await pool.query("SELECT 1");
     console.log("Database connection verified");
 
-    // Run pending database migrations
-    await runMigrations();
+    // Run pending migrations
   } catch (error) {
     console.error("Database connection or migration failed", error);
   }

@@ -15,10 +15,11 @@ CREATE TABLE IF NOT EXISTS urls (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   original_url TEXT NOT NULL,
-  short_code VARCHAR(10) NOT NULL UNIQUE,
+  short_code VARCHAR(10) NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   expires_at TIMESTAMPTZ,
-  CONSTRAINT short_code_length CHECK (char_length(short_code) BETWEEN 4 AND 10)
+  CONSTRAINT short_code_length CHECK (char_length(short_code) BETWEEN 4 AND 10),
+  UNIQUE(user_id, short_code)
 );
 
 
